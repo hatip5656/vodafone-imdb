@@ -10,5 +10,6 @@ import org.springframework.stereotype.Repository;
  ************************/
 @Repository
 public interface FilmOrTvSeriesRepository extends JpaRepository<Film_TvSeries,Long> {
+    Film_TvSeries findByPrimaryTitle(String title);
 
 }

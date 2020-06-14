@@ -5,6 +5,7 @@ import com.vodafone.imdb.model.Actor_Actress;
 import com.vodafone.imdb.model.Film_TvSeries;
 import com.vodafone.imdb.repository.ActorFilmRelationRepository;
 import com.vodafone.imdb.repository.ActorOrActressRepository;
+import com.vodafone.imdb.repository.FilmOrTvSeriesRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,6 +25,9 @@ public class ActorFilmRelationController {
 
     @Autowired
     ActorOrActressRepository actorRepo;
+
+    @Autowired
+    FilmOrTvSeriesRepository filmRepo;
 
     @PostMapping("/save")
     public Object create(@RequestBody ActorFilmRelation model) {
@@ -57,8 +61,9 @@ public class ActorFilmRelationController {
     }
 
     @PostMapping("/findAllByActor")
-    public Object findAllByActor(@RequestBody Actor_Actress model) {
+    public Object findAllByActor(@RequestParam String actorName) {
         try {
+            Actor_Actress model = actorRepo.findByPrimaryName(actorName);
             return repo.findByActorActress_Id(model.getId());
         } catch (Exception e) {
             e.printStackTrace();
@@ -67,8 +72,9 @@ public class ActorFilmRelationController {
     }
 
     @PostMapping("/findAllByFilm")
-    public Object findAllByFilm(@RequestBody Film_TvSeries model) {
+    public Object findAllByFilm(@RequestParam String filmTitle) {
         try {
+            Film_TvSeries model = filmRepo.findByPrimaryTitle(filmTitle);
             return repo.findByFilmTVSeries_Id(model.getId());
         } catch (Exception e) {
             e.printStackTrace();
@@ -88,7 +94,7 @@ public class ActorFilmRelationController {
 
             for (ActorFilmRelation filmRelation1 : actorFilmRelations1) {
                 for (ActorFilmRelation filmRelation2 : actorFilmRelations2) {
-                    if (filmRelation1.getFilmTVSeries()== filmRelation2.getFilmTVSeries()) {
+                    if (filmRelation1.getFilmTVSeries() == filmRelation2.getFilmTVSeries()) {
                         result.add(filmRelation1.getFilmTVSeries());
                     }
                 }

@@ -5,6 +5,7 @@ import com.vodafone.imdb.model.Actor_Actress;
 import com.vodafone.imdb.model.Film_TvSeries;
 import com.vodafone.imdb.repository.ActorFilmRelationRepository;
 import com.vodafone.imdb.repository.ActorOrActressRepository;
+import com.vodafone.imdb.repository.FilmOrTvSeriesRepository;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -27,6 +28,9 @@ public class ActorFilmRelationControllerTest {
     ActorFilmRelationRepository repo;
     @Mock
     ActorOrActressRepository actorRepo;
+    @Mock
+    FilmOrTvSeriesRepository filmRepo;
+
     @InjectMocks
     ActorFilmRelationController actorFilmRelationController;
 
@@ -49,6 +53,7 @@ public class ActorFilmRelationControllerTest {
         when(repo.findByFilmTVSeries_Id(any())).thenReturn(actorFilmRelations);
         when(actorRepo.findByPrimaryName("John Doe")).thenReturn(actorActress);
         when(actorRepo.findByPrimaryName("John Wick")).thenReturn(actorActress2);
+        when(filmRepo.findByPrimaryTitle(anyString())).thenReturn(filmTvSeries);
 
     }
 
@@ -71,12 +76,12 @@ public class ActorFilmRelationControllerTest {
     }
     @Test
     public void testFindAllByActor() throws Exception {
-        Object result = actorFilmRelationController.findAllByActor(actorActress);
+        Object result = actorFilmRelationController.findAllByActor(actorActress.getPrimaryName());
         Assert.assertEquals(actorF.getActorActress().getId(), ((List<ActorFilmRelation>) result).get(0).getActorActress().getId());
     }
     @Test
     public void testFindAllByFilm() throws Exception {
-        Object result = actorFilmRelationController.findAllByFilm(filmTvSeries);
+        Object result = actorFilmRelationController.findAllByFilm(filmTvSeries.getPrimaryTitle());
         Assert.assertEquals(actorF.getFilmTVSeries().getId(), ((List<ActorFilmRelation>) result).get(0).getFilmTVSeries().getId());
     }
     @Test
