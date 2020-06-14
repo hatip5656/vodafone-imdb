@@ -1,0 +1,36 @@
+server:
+  port: 9090
+  servlet:
+    context-path: /imdb
+
+spring:
+  profiles: default
+  application:
+    name: imdb
+    admin:
+      enabled: false
+  datasource:
+    url: jdbc:h2:file:./DB
+    username: sa
+    password: root
+    driverClassName: org.h2.Driver
+  jpa:
+    database: h2
+    hibernate:
+      ddl-auto: update
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+    open-in-view: true
+    show-sql: true
+  h2:
+    console:
+      enabled: true
+      settings:
+        web-allow-others: true
+      path: /db-console
+logging:
+  level:
+    root: info
+
+
+
