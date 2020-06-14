@@ -1,5 +1,6 @@
 package com.vodafone.imdb.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -33,6 +34,7 @@ public class Film_TvSeries implements Serializable  {
     private boolean isAdult;
     private Integer startYear;
     private Integer endYear;
+    @JsonFormat(pattern="hh:mm:dd")
     @DateTimeFormat(pattern="hh:mm:ss" )
     @Temporal(TemporalType.TIME)
     private Date runtimeMinutes;
